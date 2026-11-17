@@ -1,0 +1,994 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --primary-green: #2ecc71;
+    --secondary-green: #27ae60;
+    --accent-orange: #ff9500;
+    --light-green: #a9dfbf;
+    --dark-bg: #0f1419;
+    --text-light: #ecf0f1;
+    --text-muted: #bdc3c7;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, var(--dark-bg) 0%, #1a1f2e 100%);
+    color: var(--text-light);
+    overflow-x: hidden;
+    line-height: 1.6;
+}
+
+/* Progress Bar */
+.progress-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.1);
+    z-index: 1000;
+    border-bottom: 2px solid rgba(46, 204, 113, 0.3);
+}
+
+.progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--primary-green), var(--accent-orange));
+    width: 0%;
+    transition: width 0.1s ease-out;
+    box-shadow: 0 0 10px rgba(46, 204, 113, 0.8);
+}
+
+.progress-text {
+    position: fixed;
+    top: 10px;
+    right: 20px;
+    font-size: 12px;
+    font-weight: bold;
+    color: var(--primary-green);
+    z-index: 1001;
+    text-shadow: 0 0 10px rgba(46, 204, 113, 0.5);
+}
+
+/* Hero Section */
+.hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    padding: 60px 20px 20px;
+}
+
+.floating-fruits {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.floating-emoji {
+    position: absolute;
+    filter: drop-shadow(0 8px 15px rgba(0, 0, 0, 0.25));
+    will-change: transform;
+    user-select: none;
+    cursor: pointer;
+    pointer-events: auto;
+    transition: filter 0.3s ease;
+}
+
+.floating-emoji:hover {
+    filter: drop-shadow(0 12px 25px rgba(0, 0, 0, 0.4));
+}
+
+@keyframes gentleBreath {
+    0%, 100% {
+        opacity: 0.85;
+    }
+    50% {
+        opacity: 1;
+    }
+}
+
+#canvas-container {
+    display: none;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 10;
+    text-align: center;
+    animation: fadeInUp 1.2s ease-out;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.logo {
+    margin-bottom: 30px;
+    animation: float 3s ease-in-out infinite;
+    position: relative;
+}
+
+.logo::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+    height: 300px;
+    background: radial-gradient(ellipse at center, rgba(46, 204, 113, 0.4) 0%, rgba(255, 149, 0, 0.3) 50%, transparent 80%);
+    filter: blur(60px);
+    z-index: -1;
+    pointer-events: none;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-15px); }
+}
+
+.logo-icon {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    font-size: 60px;
+    margin-bottom: 20px;
+    animation: fadeInScale 1.2s ease-out;
+}
+
+@keyframes fadeInScale {
+    from {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.leaf {
+    animation: spin 4s linear infinite;
+}
+
+.touch-hand {
+    animation: wave 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+@keyframes wave {
+    0%, 100% { transform: rotate(0deg); }
+    25% { transform: rotate(20deg); }
+    75% { transform: rotate(-20deg); }
+}
+
+.logo-text {
+    font-size: 48px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    animation: fadeInText 1.4s ease-out;
+}
+
+@keyframes fadeInText {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.arabic {
+    font-size: 48px;
+    color: var(--primary-green);
+    text-shadow: 0 0 30px rgba(46, 204, 113, 0.6), 0 0 60px rgba(46, 204, 113, 0.3);
+    font-weight: 800;
+    letter-spacing: 2px;
+}
+
+.separator {
+    display: none;
+    color: var(--accent-orange);
+    margin: 0 10px;
+}
+
+.english {
+    font-size: 36px;
+    color: var(--text-light);
+    letter-spacing: 2px;
+    font-weight: 700;
+}
+
+.slogan {
+    font-size: 28px;
+    color: var(--accent-orange);
+    font-weight: 600;
+    margin-bottom: 40px;
+    text-shadow: 0 0 10px rgba(255, 149, 0, 0.3);
+    letter-spacing: 1px;
+    animation: fadeInSlogan 1.6s ease-out;
+}
+
+@keyframes fadeInSlogan {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.scroll-indicator {
+    font-size: 14px;
+    color: var(--light-green);
+    animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(10px); }
+}
+
+/* Sections */
+.stage {
+    position: relative;
+    min-height: 100vh;
+    padding: 80px 20px;
+    scroll-behavior: smooth;
+}
+
+.stage-header {
+    text-align: center;
+    margin-bottom: 60px;
+    animation: fadeInDown 0.8s ease-out;
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.stage-title {
+    font-size: 56px;
+    font-weight: 800;
+    letter-spacing: 4px;
+    margin-bottom: 10px;
+    background: linear-gradient(135deg, var(--primary-green), var(--accent-orange));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.stage-subtitle {
+    font-size: 24px;
+    color: var(--text-muted);
+    margin-bottom: 30px;
+}
+
+.progress-ring {
+    position: relative;
+    width: 150px;
+    height: 150px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.progress-ring svg {
+    width: 150px;
+    height: 150px;
+    transform: rotate(-90deg);
+}
+
+.progress-ring-bg {
+    fill: none;
+    stroke: rgba(255, 255, 255, 0.1);
+    stroke-width: 8;
+}
+
+.progress-ring-fill {
+    fill: none;
+    stroke: url(#gradient);
+    stroke-width: 8;
+    stroke-linecap: round;
+    stroke-dasharray: 282;
+    stroke-dashoffset: 282;
+    transition: stroke-dashoffset 1s ease-out;
+}
+
+.progress-label {
+    position: absolute;
+    font-size: 12px;
+    font-weight: bold;
+    color: var(--primary-green);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+/* Stage 1 - TOUCH */
+.stage-1 {
+    background: linear-gradient(135deg, rgba(46, 204, 113, 0.05), rgba(255, 149, 0, 0.05));
+}
+
+/* Tabs */
+.tabs-container {
+    margin-bottom: 60px;
+}
+
+.tabs {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+    margin-bottom: 50px;
+}
+
+.tab-button {
+    padding: 12px 30px;
+    border: 2px solid var(--primary-green);
+    background: transparent;
+    color: var(--text-light);
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    border-radius: 25px;
+    transition: all 0.3s ease;
+    letter-spacing: 1px;
+}
+
+.tab-button:hover {
+    background: var(--primary-green);
+    color: var(--dark-bg);
+    transform: scale(1.05);
+}
+
+.tab-button.active {
+    background: var(--primary-green);
+    color: var(--dark-bg);
+    box-shadow: 0 0 20px rgba(46, 204, 113, 0.6);
+}
+
+.tab-content {
+    display: none;
+    animation: fadeIn 0.5s ease-out;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* Flip Cards */
+.dishes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 30px;
+    margin-bottom: 40px;
+}
+
+.flip-card {
+    height: 480px;
+    cursor: pointer;
+    perspective: 1000px;
+}
+
+.flip-card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+}
+
+.flip-card:hover .flip-card-inner {
+    transform: rotateY(180deg);
+}
+
+.flip-card-front,
+.flip-card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 20px;
+    border-radius: 15px;
+    text-align: center;
+    overflow-y: auto;
+}
+
+.flip-card-front {
+    background: linear-gradient(135deg, var(--primary-green), var(--light-green));
+    color: var(--dark-bg);
+}
+
+.flip-card-back {
+    background: linear-gradient(135deg, var(--accent-orange), #ffb84d);
+    color: var(--dark-bg);
+    transform: rotateY(180deg);
+    position: relative;
+}
+
+.dish-emoji {
+    font-size: 60px;
+    margin: 15px 0 10px 0;
+}
+
+.flip-card-front h3,
+.flip-card-back h3 {
+    font-size: 18px;
+    font-weight: 700;
+    margin: 10px 0;
+    line-height: 1.3;
+}
+
+.calories {
+    font-size: 14px;
+    font-weight: 700;
+    margin: 8px 0;
+    background: rgba(255, 255, 255, 0.2);
+    padding: 6px 12px;
+    border-radius: 20px;
+    display: inline-block;
+}
+
+.ingredients-label {
+    font-size: 12px;
+    font-weight: 600;
+    margin-top: 10px;
+    margin-bottom: 6px;
+    opacity: 0.9;
+}
+
+.ingredients {
+    list-style: none;
+    font-size: 12px;
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+}
+
+.ingredients li {
+    padding: 2px 0;
+}
+
+.benefits {
+    font-size: 12px;
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.benefits p {
+    margin: 4px 0;
+    font-weight: 600;
+}
+
+.calorie-badge {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: rgba(255, 255, 255, 0.9);
+    color: var(--accent-orange);
+    font-weight: 700;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+}
+
+/* Milestone */
+.milestone {
+    text-align: center;
+    padding: 40px;
+    margin: 60px 0;
+    border: 2px solid var(--primary-green);
+    border-radius: 20px;
+    background: rgba(46, 204, 113, 0.1);
+    position: relative;
+    overflow: hidden;
+}
+
+.milestone-content {
+    position: relative;
+    z-index: 2;
+}
+
+.milestone-text {
+    font-size: 36px;
+    font-weight: 800;
+    color: var(--primary-green);
+    text-shadow: 0 0 20px rgba(46, 204, 113, 0.6);
+    animation: pulse 1s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+.confetti {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.confetti::before,
+.confetti::after {
+    content: '';
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background: var(--primary-green);
+    animation: confettiFall 3s infinite ease-in;
+}
+
+@keyframes confettiFall {
+    to {
+        transform: translateY(100vh) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+/* Stage 2 - TRANSFORM */
+.stage-2 {
+    background: linear-gradient(135deg, rgba(46, 204, 113, 0.05), rgba(255, 149, 0, 0.08));
+}
+
+.exercises-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+    margin-bottom: 60px;
+}
+
+.exercise-card {
+    padding: 30px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 2px solid var(--primary-green);
+    border-radius: 15px;
+    text-align: center;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.exercise-card:hover {
+    transform: translateY(-10px) rotateZ(2deg);
+    border-color: var(--accent-orange);
+    box-shadow: 0 10px 30px rgba(255, 149, 0, 0.3);
+}
+
+.exercise-icon {
+    font-size: 60px;
+    margin-bottom: 20px;
+    display: block;
+    animation: float 3s ease-in-out infinite;
+}
+
+.exercise-card h3 {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 15px;
+    color: var(--primary-green);
+}
+
+.exercise-card p {
+    color: var(--text-muted);
+    margin-bottom: 20px;
+    font-size: 14px;
+}
+
+.resource-btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background: linear-gradient(135deg, var(--primary-green), var(--accent-orange));
+    color: var(--dark-bg);
+    text-decoration: none;
+    border-radius: 20px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.resource-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 5px 20px rgba(46, 204, 113, 0.5);
+}
+
+.resource-btn.youtube-btn {
+    background: linear-gradient(135deg, #FF0000, #E60000);
+    color: white;
+    box-shadow: 0 3px 15px rgba(255, 0, 0, 0.3);
+}
+
+.resource-btn.youtube-btn:hover {
+    background: linear-gradient(135deg, #E60000, #CC0000);
+    box-shadow: 0 5px 20px rgba(255, 0, 0, 0.6);
+    transform: scale(1.08);
+}
+
+.app-recommendations {
+    display: none;
+    text-align: center;
+    margin: 50px 0;
+}
+
+.app-recommendations h3 {
+    font-size: 24px;
+    color: var(--primary-green);
+    margin-bottom: 30px;
+}
+
+.app-cards {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.app-card {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 15px 25px;
+    background: rgba(46, 204, 113, 0.1);
+    border: 2px solid var(--accent-orange);
+    border-radius: 15px;
+    color: var(--text-light);
+    text-decoration: none;
+    transition: all 0.3s ease;
+    font-weight: 600;
+}
+
+.app-card:hover {
+    background: var(--accent-orange);
+    color: var(--dark-bg);
+    transform: scale(1.05);
+}
+
+.app-icon {
+    font-size: 24px;
+}
+
+/* Stage 3 - THRIVE */
+.stage-3 {
+    background: linear-gradient(135deg, rgba(46, 204, 113, 0.08), rgba(255, 149, 0, 0.05));
+}
+
+.wellbeing-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+    margin-bottom: 60px;
+}
+
+.wellbeing-card {
+    padding: 30px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 2px solid var(--accent-orange);
+    border-radius: 15px;
+    transition: all 0.3s ease;
+}
+
+.wellbeing-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 10px 30px rgba(255, 149, 0, 0.3);
+    border-color: var(--primary-green);
+}
+
+.wellbeing-icon {
+    font-size: 48px;
+    margin-bottom: 15px;
+    display: block;
+}
+
+.wellbeing-card h3 {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--accent-orange);
+    margin-bottom: 15px;
+}
+
+.wellbeing-card ul {
+    list-style: none;
+    text-align: left;
+}
+
+.wellbeing-card li {
+    padding: 8px 0;
+    color: var(--text-muted);
+    font-size: 14px;
+}
+
+.final-milestone {
+    text-align: center;
+    padding: 60px 40px;
+    margin: 60px 0;
+    border: 3px solid var(--primary-green);
+    border-radius: 20px;
+    background: linear-gradient(135deg, rgba(46, 204, 113, 0.15), rgba(255, 149, 0, 0.1));
+    position: relative;
+    overflow: hidden;
+}
+
+.motivational-quote {
+    margin-top: 30px;
+    font-size: 20px;
+    color: var(--accent-orange);
+    font-style: italic;
+    font-weight: 600;
+    line-height: 1.8;
+}
+
+/* Footer */
+.footer {
+    text-align: center;
+    padding: 40px 20px;
+    background: rgba(0, 0, 0, 0.3);
+    color: var(--text-muted);
+    border-top: 2px solid var(--primary-green);
+}
+
+.footer p {
+    font-size: 14px;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .logo-text {
+        font-size: 32px;
+        gap: 10px;
+    }
+
+    .arabic {
+        font-size: 32px;
+    }
+
+    .english {
+        font-size: 22px;
+    }
+
+    .logo::before {
+        width: 300px;
+        height: 250px;
+    }
+
+    .slogan {
+        font-size: 20px;
+    }
+
+    .stage-title {
+        font-size: 40px;
+    }
+
+    .stage-subtitle {
+        font-size: 18px;
+    }
+
+    .dishes-grid {
+        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+        gap: 20px;
+    }
+
+    .flip-card {
+        height: 420px;
+    }
+
+    .dish-emoji {
+        font-size: 48px;
+    }
+
+    .flip-card-front h3,
+    .flip-card-back h3 {
+        font-size: 15px;
+    }
+
+    .calories {
+        font-size: 12px;
+    }
+
+    .ingredients-label {
+        font-size: 11px;
+    }
+
+    .ingredients {
+        font-size: 11px;
+    }
+
+    .exercises-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .exercise-card {
+        padding: 20px;
+    }
+
+    .wellbeing-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .milestone-text {
+        font-size: 24px;
+    }
+
+    .progress-ring {
+        width: 120px;
+        height: 120px;
+    }
+
+    .progress-ring svg {
+        width: 120px;
+        height: 120px;
+    }
+
+    /* Lighter 3D effects on mobile */
+    .exercise-card:hover {
+        transform: translateY(-5px) rotateZ(1deg);
+    }
+
+    .wellbeing-card:hover {
+        transform: scale(1.02);
+    }
+
+    /* Disable confetti animation on small screens */
+    .confetti::before,
+    .confetti::after {
+        display: none;
+    }
+}
+
+@media (max-width: 480px) {
+    .logo-icon {
+        font-size: 40px;
+        gap: 10px;
+    }
+
+    .logo-text {
+        font-size: 20px;
+        gap: 8px;
+    }
+
+    .arabic {
+        font-size: 20px;
+    }
+
+    .english {
+        font-size: 16px;
+    }
+
+    .logo::before {
+        width: 200px;
+        height: 200px;
+        filter: blur(40px);
+    }
+
+    .slogan {
+        font-size: 14px;
+    }
+
+    .stage-title {
+        font-size: 32px;
+    }
+
+    .stage {
+        padding: 60px 15px;
+    }
+
+    .tabs {
+        gap: 10px;
+    }
+
+    .tab-button {
+        padding: 10px 15px;
+        font-size: 13px;
+    }
+
+    .dishes-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .flip-card {
+        height: 380px;
+    }
+
+    .dish-emoji {
+        font-size: 40px;
+    }
+
+    .flip-card-front h3,
+    .flip-card-back h3 {
+        font-size: 14px;
+    }
+
+    .calories {
+        font-size: 11px;
+    }
+
+    .ingredients {
+        font-size: 10px;
+    }
+
+    .milestone {
+        padding: 30px 20px;
+    }
+
+    .milestone-text {
+        font-size: 20px;
+    }
+
+    .motivational-quote {
+        font-size: 16px;
+    }
+}
+
+/* Smooth scrolling parallax effect */
+@media (prefers-reduced-motion: no-preference) {
+    * {
+        scroll-behavior: smooth;
+    }
+}
+
+/* SVG Gradient Definition */
+svg {
+    display: block;
+}
+
+defs {
+    display: none;
+}
